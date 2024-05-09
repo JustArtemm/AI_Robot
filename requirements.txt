@@ -4,3 +4,7 @@ matplotlib
 requests
 gigachain
 gigachat
+langchainhub
+-U duckduckgo-search
+pyfiglet
+sympy

@@ -5,12 +5,16 @@ from Utils.config import Parameters
 import Utils.utils as uu
 # import agent_tools.agent_tools as at 
 from langchain.agents import AgentExecutor, create_gigachat_functions_agent
-
+from langchain.tools import tool
+import pyfiglet
+from langchain_community.tools import DuckDuckGoSearchRun
+from langchain.agents import AgentExecutor, create_gigachat_functions_agent
 
 """Пример работы с чатом через gigachain"""
 
-from langchain.schema import HumanMessage, SystemMessage
+from langchain.schema import HumanMessage, SystemMessage, AIMessage
 from langchain.chat_models.gigachat import GigaChat
+from src.agent_tools.agent_tools import Tools
 
 
 parameters = Parameters()
@@ -18,10 +22,16 @@ parameters = Parameters()
 def get_output():
     global parameters
     user_input = uu.get_input()
+    
+    # res = chat(parameters.messages)
+
+    res = agent_executor.invoke(
+        {"chat_history": parameters.messages,
+        "input": user_input }
+        )["output"]
     parameters.messages.append(HumanMessage(content=user_input))
-    res = chat(parameters.messages)
-    parameters.messages.append(res)
-    print("Bot: ", res.content)
+    parameters.messages.append(AIMessage(content = res))
+    print("Bot: ", res)
     parameters.dump_messages()
     if not parameters.save_history:
         parameters.messages = parameters.sys_msg
@@ -30,11 +40,22 @@ def get_output():
 # Авторизация в сервисе GigaChat
 chat = GigaChat(credentials = parameters.credentials, 
                 verify_ssl_certs=False)
-agent_wordlen = create_gigachat_functions_agent(chat, parameters.tools)
-agent_wordlen_executor = AgentExecutor(
-    agent=agent_wordlen,
-    tools=parameters.tools,
-    verbose=True,
+
+
+
+search_tool = DuckDuckGoSearchRun()
+# tools = [search_tool]
+# tools = [search_tool, draw_banner]
+
+
+
+agent = create_gigachat_functions_agent(chat, Tools)
+
+#AgentExecutor создает среду, в которой будет работать агент
+agent_executor = AgentExecutor(
+    agent=agent,
+    tools=Tools,
+    verbose=False,
 )
 
 

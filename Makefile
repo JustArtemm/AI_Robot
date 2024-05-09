@@ -1,5 +1,5 @@
 run:
-	docker run -v C:\Users\axeno\OneDrive\Документы\Personal_projects\AI_Robot:/app/ai_robot --gpus device=0 -it --entrypoint /bin/bash --name ai_robot ai_robot:latest
+	docker run -v /Users/artem/Documents/AI_Robot:/app/ai_robot -it --entrypoint /bin/bash --name ai_robot ai_robot:latest
 build:
 	docker build . -t ai_robot
 stop:

@@ -18,7 +18,7 @@ class Parameters:
         self.save_history = self.options['save_history']
         self.infinite_chat = self.options['infinite_chat']
         self.sys_msg = [SystemMessage(
-                content="Ты бот-ассистент, который помогает пользователю в любых вопросах."
+                content="Ты бот-ассистент Макс, который помогает пользователю в любых вопросах. Ты умеешь искать в интернете используя инструменты"
             )]
         self.messages = self.sys_msg
 

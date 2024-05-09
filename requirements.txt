@@ -8,3 +8,5 @@ langchainhub
 -U duckduckgo-search
 pyfiglet
 sympy
+climage 
+bs4

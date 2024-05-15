@@ -16,6 +16,8 @@ from langchain.schema import HumanMessage, SystemMessage, AIMessage
 from langchain.chat_models.gigachat import GigaChat
 # from src.agent_tools.agent_tools import Tools
 # from src.Utils.config import 
+import warnings
+warnings.filterwarnings("ignore")
 
 
 parameters = Parameters()
@@ -29,18 +31,20 @@ def get_output():
 
     res = agent_executor.invoke(
         {"chat_history": parameters.messages,
-        "input": user_input }
+        "input": user_input,
+        "function_call": "auto" }
         )["output"]
     parameters.messages.append(HumanMessage(content=user_input))
     parameters.messages.append(AIMessage(content = res))
     print("Bot: ", res)
-    parameters.dump_messages()
-    if not parameters.save_history:
+    # print(parameters.save_history)
+    if parameters.save_history == True:
+        parameters.dump_messages()
         parameters.messages = parameters.sys_msg
     return res
 
 # Авторизация в сервисе GigaChat
-chat = GigaChat(credentials = parameters.credentials, 
+chat = GigaChat(credentials = parameters.credentials, model = 'GigaChat-preview',
                 verify_ssl_certs=False)
 
 
@@ -59,7 +63,7 @@ agent = create_gigachat_functions_agent(chat, Tls.get_all_tools())
 agent_executor = AgentExecutor(
     agent=agent,
     tools=Tls.get_all_tools(),
-    verbose=True,
+    verbose=False,
 )
 
 

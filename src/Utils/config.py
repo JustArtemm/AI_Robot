@@ -19,6 +19,8 @@ import climage
 import urllib
 import random
 from bs4 import BeautifulSoup
+import os
+os.environ['TAVILY_API_KEY'] = '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'
 
 class Parameters:
     def __init__(self, options_path = opj('Config/settings.json')):
@@ -49,7 +51,7 @@ class Parameters:
         if os.path.isfile(opj('src/chat/messages.json')):
             self.messages_dict = uu.get_config(opj('src/chat/messages.json'))
             self.messages = self.as_messages()
-            print(self.messages)
+            # print(self.messages)
 
 
         # self.tools = [Tools.get_word_length]
@@ -119,10 +121,10 @@ class Tools:
 
     @tool
     def calculator(input:str) -> str:
-        """ Вычисляет математические операции такие как сложение, вычитание, деление и умножение
+        """ Вычисляет математические операции такие как сложение, вычитание, деление и умножение, а также различные уравнения, включая дифференциальные
 
         Args:
-            input (str): входные данные в строчном формате включающие в себя одну из операций: +, -, *, /. Например "1+2", "3-2", "10*5", "11/4" 
+            input (str): входные данные в строчном формате включающие в себя одну из операций: +, -, *, /. Например "1+2", "3-2", "10*5", "11/4", дифференциальные уравнения в свободном фромате
         """
         return(str(sympy.sympify(input)))
 

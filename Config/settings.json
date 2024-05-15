@@ -1,5 +1,5 @@
 {   "root": "/app/ai_robot/",
     "credentials_p": "credentials.txt",
-    "save_history": false,
+    "save_history": true,
     "infinite_chat":true
 }

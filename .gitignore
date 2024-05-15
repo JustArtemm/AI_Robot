@@ -3,3 +3,4 @@ gigachat_api_keys
 ai_robot
 .github
 .devcontainer
+src/Utils/__pycache__
